@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Age Calculator | Accurate Age Calculator Online</title>
+    <meta name="description" content="Calculate your exact age in years, months, days, and hours. Free online age calculator with date precision.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .tagline {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: bold;
+        }
+        
+        input[type="date"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        button {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.3s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+        }
+        
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .result h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .age-item {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .ads-container {
+            margin: 20px 0;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 5px;
+            text-align: center;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📅 Free Age Calculator</h1>
+        <p class="tagline">Calculate your exact age in years, months, and days</p>
+        
+        <div class="input-group">
+            <label for="birthDate">Date of Birth:</label>
+            <input type="date" id="birthDate" max="">
+        </div>
+        
+        <div class="input-group">
+            <label for="compareDate">Age at this Date (Optional):</label>
+            <input type="date" id="compareDate">
+        </div>
+        
+        <button onclick="calculateAge()">Calculate My Age</button>
+        
+        <!-- Ad Space 1 -->
+        <div class="ads-container">
+            <p>Advertisement Space</p>
+            <!-- Google AdSense or other ads will go here -->
+        </div>
+        
+        <div class="result" id="result">
+            <h3>📊 Your Age Results:</h3>
+            <div class="age-item">
+                <strong>Years:</strong> <span id="years">0</span>
+            </div>
+            <div class="age-item">
+                <strong>Months:</strong> <span id="months">0</span>
+            </div>
+            <div class="age-item">
+                <strong>Days:</strong> <span id="days">0</span>
+            </div>
+            <div class="age-item">
+                <strong>Total Days:</strong> <span id="totalDays">0</span>
+            </div>
+        </div>
+        
+        <!-- Ad Space 2 -->
+        <div class="ads-container">
+            <p>Advertisement Space</p>
+            <!-- Google AdSense or other ads will go here -->
+        </div>
+        
+        <div class="footer">
+            <p>© <span id="currentYear"></span> Free Age Calculator. All rights reserved.</p>
+            <p>This tool is 100% free to use</p>
+        </div>
+    </div>
+
+    <script>
+        // Set max date to today
+        document.getElementById('birthDate').max = new Date().toISOString().split('T')[0];
+        document.getElementById('compareDate').max = new Date().toISOString().split('T')[0];
+        document.getElementById('compareDate').value = new Date().toISOString().split('T')[0];
+        
+        // Set current year in footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        
+        function calculateAge() {
+            const birthDate = new Date(document.getElementById('birthDate').value);
+            const compareDateInput = document.getElementById('compareDate').value;
+            const compareDate = compareDateInput ? new Date(compareDateInput) : new Date();
+            
+            if (!birthDate.getTime()) {
+                alert("Please enter your date of birth!");
+                return;
+            }
+            
+            if (birthDate > compareDate) {
+                alert("Birth date cannot be in the future!");
+                return;
+            }
+            
+            let years = compareDate.getFullYear() - birthDate.getFullYear();
+            let months = compareDate.getMonth() - birthDate.getMonth();
+            let days = compareDate.getDate() - birthDate.getDate();
+            
+            if (days < 0) {
+                months--;
+                // Get days in previous month
+                const prevMonth = new Date(compareDate.getFullYear(), compareDate.getMonth(), 0);
+                days += prevMonth.getDate();
+            }
+            
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+            
+            // Calculate total days
+            const timeDiff = compareDate - birthDate;
+            const totalDays = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            
+            // Display results
+            document.getElementById('years').textContent = years;
+            document.getElementById('months').textContent = months;
+            document.getElementById('days').textContent = days;
+            document.getElementById('totalDays').textContent = totalDays;
+            
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
